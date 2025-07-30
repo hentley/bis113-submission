@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BIS113 Data Submission</title>
+  <script>
+    function submitForm(event) {
+      event.preventDefault();
+
+      const endpoint = "https://script.google.com/macros/s/AKfycbwZsWVKbmj9u5hrNzI25vBIqg4jvXFR89fjPRSjQY4pJ97Gu_dByGSm_EbLAjWq0pD_Hg/exec";
+
+      const data = {
+        pair_id: document.getElementById("pair_id").value,
+        lab_group: document.getElementById("lab_group").value,
+        citric_1M: document.getElementById("citric_1M").value,
+        citric_0_1M: document.getElementById("citric_0_1M").value,
+        citric_0_01M: document.getElementById("citric_0_01M").value,
+        sodium_1M: document.getElementById("sodium_1M").value,
+        sodium_0_1M: document.getElementById("sodium_0_1M").value,
+        sodium_0_01M: document.getElementById("sodium_0_01M").value,
+        mix1: document.getElementById("mix1").value,
+        mix2: document.getElementById("mix2").value,
+        mix3: document.getElementById("mix3").value,
+        unkA: document.getElementById("unkA").value,
+        unkB: document.getElementById("unkB").value
+      };
+
+      fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => response.text())
+      .then(result => {
+        alert("Submission successful!");
+        document.getElementById("dataForm").reset();
+      })
+      .catch(error => {
+        alert("There was a problem submitting your data.");
+        console.error(error);
+      });
+    }
+  </script>
+</head>
+<body>
+  <h2>BIS113 Practical 2: Submit Your Results</h2>
+  <form id="dataForm" onsubmit="submitForm(event)">
+    <label>Pair ID: <input type="text" id="pair_id" required /></label><br>
+    <label>Lab Group: <input type="text" id="lab_group" required /></label><br><br>
+
+    <fieldset>
+      <legend>Citric Acid</legend>
+      <label>1 M: <input type="number" step="any" id="citric_1M" /></label><br>
+      <label>0.1 M: <input type="number" step="any" id="citric_0_1M" /></label><br>
+      <label>0.01 M: <input type="number" step="any" id="citric_0_01M" /></label>
+    </fieldset><br>
+
+    <fieldset>
+      <legend>Sodium Bicarbonate</legend>
+      <label>1 M: <input type="number" step="any" id="sodium_1M" /></label><br>
+      <label>0.1 M: <input type="number" step="any" id="sodium_0_1M" /></label><br>
+      <label>0.01 M: <input type="number" step="any" id="sodium_0_01M" /></label>
+    </fieldset><br>
+
+    <fieldset>
+      <legend>Mixtures & Unknowns</legend>
+      <label>Mix 1: <input type="number" step="any" id="mix1" /></label><br>
+      <label>Mix 2: <input type="number" step="any" id="mix2" /></label><br>
+      <label>Mix 3: <input type="number" step="any" id="mix3" /></label><br>
+      <label>Unknown A: <input type="number" step="any" id="unkA" /></label><br>
+      <label>Unknown B: <input type="number" step="any" id="unkB" /></label>
+    </fieldset><br>
+
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
